@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1539030022 source:/home/tadrith/Documents/cis161+/week2/lab2/main.cpp
+	<iostream>
+	<iomanip>
+	<ctime>
+
