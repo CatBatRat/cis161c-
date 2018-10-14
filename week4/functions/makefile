@@ -1,5 +1,5 @@
 main=main.cpp
-out=commission_calc
+out=function_testing
 
 c: $(main)
 	clear
