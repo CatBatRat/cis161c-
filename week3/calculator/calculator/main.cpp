@@ -1,6 +1,7 @@
 // vim: set autochdir:
 #include <iostream>
 #include <iomanip>
+#include <stdio.h>
 
 using namespace std;
 
@@ -13,11 +14,11 @@ int main() {
     cout << "First number: "; cin >> num1;
     cout << "Second number: "; cin >> num2;
     cout << "And what kind of math operation\n"
-        "would you like to perform?\n";
+            "would you like to perform?\n";
     cout << " *,/,%,+,- : "; cin >> math;
     if(math == '/') {
         if(num2 != 0) {
-            cout << fixed << showpoint << setprecision(2);
+            cout << fixed << showpoint << setprecision(3);
             out = static_cast<float>(num1)/static_cast<float>(num2);
         }
         else cout << "Can't divide by zero!";
@@ -27,6 +28,7 @@ int main() {
     if(math == '+') { out = num1 + num2; }
     if(math == '-') { out = num1 - num2; }
 
-    cout << out;
+    cout << " " << num1 << " " << math << " " << num2 << " = " << out;
+    cin >> math;
 
 }
