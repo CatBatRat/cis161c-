@@ -53,7 +53,7 @@ int main() {
              * input drops below the next value from BASES, else it
              * will fire when number of loops is one less than the
              * length of RATES. */
-            if( input < BASES[tr+1]-BASES[tr] or tr == rl-1 ) {
+            if( input <= BASES[tr+1]-BASES[tr] or tr == rl-1 ) {
                 output += input * RATES[tr];
                 break;
             }
@@ -71,7 +71,7 @@ int main() {
         if ( go == 1 ) {
             cout << endl << "Your commission for this sale is $" <<
             output << endl;
-            }
+        }
         go = 1;
         cout << "\nYou may now enter another sale amount,\n"
                 "or you may input a '0' to exit";

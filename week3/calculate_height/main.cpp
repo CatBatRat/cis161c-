@@ -1,3 +1,4 @@
+// vim:autochdir:
 #include <iostream>
 
 using namespace std;

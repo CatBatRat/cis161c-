@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1540184872 source:/home/tadrith/Documents/cis161+/week3/string_parsing/main.cpp
+	<iostream>
+	<vector>
+	<string>
+	<cstdio>
+

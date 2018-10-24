@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1539840741 source:/home/tadrith/Documents/cis161+/week3/highest_lowest/main.cpp
+	<iostream>
+	<vector>
+
+1540187632 source:/home/tadrith/lcc/cis161+/week4/highest_lowest/main.cpp
+	<iostream>
+	<iomanip>
+	<string>
+	<cstdio>
+	<vector>
+
+1540244535 source:/home/tadrith/lcc/cis161+/week4/number_works/main.cpp
+	<iostream>
+	<iomanip>
+	<string>
+	<cstdio>
+

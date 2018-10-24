@@ -1,5 +1,9 @@
 # depslib dependency file v1.0
-1539546015 source:/home/tadrith/Documents/cis161+/week3/calculator/main.cpp
+1539631993 source:/home/tadrith/Documents/cis161+/week3/calculator/main.cpp
+	<iostream>
+	<iomanip>
+
+1539637900 source:/home/tadrith/lcc/cis161+/week3/calculator/main.cpp
 	<iostream>
 	<iomanip>
 

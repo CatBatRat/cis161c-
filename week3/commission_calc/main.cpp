@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 
+
 /* I think I got a little carried away with this one. I really liked the idea
  * of the calculations being done on-the-fly and there being no limit to the
  * number of levels this code can calculate.
@@ -12,6 +13,7 @@
 using namespace std;
 
 int main() {
+    #define BS(a,b) (a[b+1]-a[b])
     // Base amounts at which interest levels change.
     const double BASES[] = {0, 100000, 300000};
     // Number of interest levels MUST match number of bases!
@@ -26,7 +28,9 @@ int main() {
     // - RATES array length
     // - Controlling entry into the second while loop
     // - Tracking number of loops in relation to RATES array length
-    int rl, go = 1, tr = 0;
+    int rl, tr = 0;
+    bool go = true;
+
 
     // Get number of elements in the "RATES" array
     rl = sizeof(RATES)/sizeof(RATES[0]);
@@ -38,43 +42,34 @@ int main() {
     cout << "Please input the total transaction amount\n"
             "from your sale to calculate your commission.";
     // Enter main while loop
-    while(1) {
+    while(true) {
         output = 0; tr = 0;
-        cout << "\nAmount: "; cin >> input;
+        cout << "\nAmount: ";
+        cin >> input;
+        cout << flush;
+        system("clear");
         // Exit program upon entering 0
         if( input == 0 ) return 0;
         // Set go = 0 upon negative number entry
         if( input <= 0 ) {
-            go = 0; cout << "\nPlease enter a positive value\n";
+            go = false; cout << "\nPlease enter a positive value\n";
         }
         while(go) {
-            /* If initial input below the next BASES change this will
-             * apply the first value of RATES, else it will fire when
-             * input drops below the next value from BASES, else it
-             * will fire when number of loops is one less than the
-             * length of RATES. */
-            if( input <= BASES[tr+1]-BASES[tr] or tr == rl-1 ) {
+            if( input <= BS(BASES,tr) or tr == rl-1 ) {
                 output += input * RATES[tr];
-                cout << "Over " << BASES[tr] << " " << RATES[tr] << " " << output <<endl;
                 break;
             }
-            /* Loop through and apply the difference of the
-             * next value of BASES minus the current
-             * value times current value of RATES and
-             * add the product to output then
-             * subtract the same value of BASES from input*/
             if( input > BASES[tr] ) {
-                output += (BASES[tr+1]-BASES[tr])*RATES[tr];
-                input -= (BASES[tr+1]-BASES[tr]);
-                cout << BASES[tr+1] << " " << RATES[tr] << " " << output <<endl;
+                output += BS(BASES,tr)*RATES[tr];
+                input -= BS(BASES,tr);
             }
             tr++;
         }
-        if ( go == 1 ) {
-            cout << endl << "Your commission for this sale is $" <<
-            output << endl;
+        if ( go == true ) {
+            cout << endl << "Your commission for a sale of " << input <<
+                            "\nis $ " << output << endl;
         }
-        go = 1;
+        go = true;
         cout << "\nYou may now enter another sale amount,\n"
                 "or you may input a '0' to exit";
 

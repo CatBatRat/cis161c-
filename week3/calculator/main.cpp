@@ -27,19 +27,23 @@ int main() {
 
     // Check if division and check for 0 in the second value
     // and perform division if not 0, else display error.
-    if(op == '/') {
-        if(num2 != 0) {
-            cout << fixed << showpoint << setprecision(3);
-            out = static_cast<float>(num1)/static_cast<float>(num2);
+    if(op != 0) {
+        if(op == '/') {
+            if(num2 != 0) {
+                cout << fixed << showpoint << setprecision(3);
+                out = static_cast<float>(num1)/static_cast<float>(num2);
+            }
+            else cout << "Can't divide by zero!";
         }
-        else cout << "Can't divide by zero!";
-    }
-    if(op == '*') { out = num1 * num2; }
-    if(op == '%') { out = num1 % num2; }
-    if(op == '+') { out = num1 + num2; }
-    if(op == '-') { out = num1 - num2; }
+        else if(op == '*') { out = num1 * num2; }
+        else if(op == '%') { out = num1 % num2; }
+        else if(op == '+') { out = num1 + num2; }
+        else if(op == '-') { out = num1 - num2; }
+        else {
+                cout << "That is not a valid operator, please try again."; return 0;}
 
-    cout <<" "<<num1<<" "<<op<<" "<<num2<<" = "<<out;
+        cout <<" "<<num1<<" "<<op<<" "<<num2<<" = "<<out;
+    }
 
     return 0;
 }
