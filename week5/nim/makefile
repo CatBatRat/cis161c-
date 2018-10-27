@@ -6,5 +6,4 @@ c:$(main)
 	g++ $(main) -o $(out)
 
 r:$(out)
-	xterm -T $(out) -e ./$(out)
-	clear
+	xterm -T $(out) -e ./$(out) -hold

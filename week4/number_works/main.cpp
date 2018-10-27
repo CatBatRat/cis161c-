@@ -2,22 +2,18 @@
 #include <iomanip>
 #include <string>
 #include <cstdio>
+#include <regex>
 
 using namespace std;
 
 #define w(width,input) setw(width) << input
 
 
-const char clr[] = "clear";
+const char clr[] = "cls";
 
 int _minmax();
 int _factors();
 int _commission();
-
-// Couldn't find a way to parse a proper exit in time
-// will return to this when I have learned how to take
-// multiple values from a single input, convert, and
-// assign them to the proper types.
 int _calculator();
 
 int main()
@@ -31,7 +27,7 @@ int main()
     // program as well.
     cout << "Welcome to the main menu of Number Works!\n"
             "This Program is meant to provide you with\n"
-            "set of tools to work with number problems\n"
+            "a set of tools to work with number problems\n"
             "of various types.\n\n";
 
     // While not zero means that only the number 0 when entered at the menu
@@ -64,7 +60,7 @@ int main()
 }
 int _minmax()
 {
-    long int input=1, highest, lowest;
+    long int input, highest, lowest;
 
     cout << "Please input any series of integers and this program\n"
             "will identify the highest and lowest number then\n"
@@ -73,20 +69,27 @@ int _minmax()
     lowest = input;
     highest = input;
 
-    while(input)
+    bool first = true;
+
+    while(true)
     {
         cout << "Integer: #";
         cin >> input;
         cout << flush;
         system(clr);
+        if ( input == 0 ) return 0;
         if ( input < 1 || input > 100 )
         {
             cout << "You must input a number between 1 and 100." << endl;
             continue;
         }
-        if(highest-lowest==0)cout <<left<< "The first integer you have entered is #" << input << "\n\n";
-        //cout << flush;
-        //system(clr);
+        if(first)
+        {
+            cout <<left<< "The first integer you have entered is #" << input << "\n\n";
+            lowest = input;
+            highest = input;
+            first = false;
+        }
         if(input < lowest)
             lowest = input;
         else if(input > highest)
@@ -113,7 +116,10 @@ int _factors()
 
     while(number)
     {
-        cout << "Integer: #";cin >> number;
+        cin.clear();
+        cin.ignore();
+        cout << "Integer: #";
+        cin >> number;
         cout << flush;
         system(clr);
         if(number < 0)
@@ -131,16 +137,14 @@ int _factors()
             out += "and 1.";
             cout << "The factors of " << number << " are\n" <<
                     number << " " << out;
+                    out = "";
 
         }
         cout << "\nYou may now enter an additional number, or input \"0\"\n"
-                "to return to the main menu.\n\n"
-                "Integer: #"; cin >> number;
-                out = "";
-                cout << flush;
-                system(clr);
+                "to return to the main menu.\n\n";
     }
-
+    cout << flush;
+    system(clr);
     return 0;
 }
 
@@ -224,10 +228,15 @@ int _calculator()
     int num1, num2;
     double out;
 
+    /* Capture all needed values on a single line
+     * separated by spaces then match using a regular expre*/
+    string input;
+    regex matcher(R"((\d+)\s*([\D\W)])\s*(\d+))");
+
     // Display instructions
     cout << "Please enter two integers, separated by an operator,\n"
-            "with spaces in between.\n\n"
-            " Example: 2 + 2\n\n"
+            " Example: 2 + 2,\n"
+            " or enter a '0' to exit.\n"
             " + = Add\n"
             " - = Subtract\n"
             " * = Multiply\n"
@@ -235,32 +244,55 @@ int _calculator()
             " % = Modulo\n"
             " \n ";
     bool go = true;
+    cin.clear();
+    cin.ignore();
     while(go)
     {
-    // Capture all needed values on a single line
-    // separated by spaces
-    string input;
-
-    // Check if division and check for 0 in the second value
-    // and perform division if not 0, else display error.
-    switch(op)
-    {
-        case '/':
+        std::getline(cin, input, '\n');
+        if( input == "0")
         {
-            if(num2 != 0)
-            {
-                cout << fixed << showpoint << setprecision(3);
-                out = static_cast<float>(num1)/static_cast<float>(num2);
-                break;
-            }
-            else cout << "Can't divide by zero!";break;
+            cout << flush;
+            system(clr);
+            return 0;
         }
-        case '*': out = num1 * num2; break;
-        case '%': out = num1 % num2; break;
-        case '+': out = num1 + num2; break;
-        case '-': out = num1 - num2; break;
-        default:  cout << "That is not a valid operator, please try again."; break;
-    }
+        smatch result;
+        regex_match(input,result,matcher);
+        if( result.empty() )
+        {
+            cout << "That is not valid input\nPlease try again." << endl;
+            continue;
+        }
+        else
+        {
+            num1 = stoi(result[1]);
+            num2 = stoi(result[3]);
+            op = static_cast<string>(result[2])[0];
+        }
+
+        // Check if division and check for 0 in the second value
+        // and perform division if not 0, else display error.
+        switch(op)
+        {
+            case '/':
+            {
+                if(num2 != 0)
+                {
+                    cout << fixed << showpoint << setprecision(3);
+                    out = static_cast<float>(num1)/static_cast<float>(num2);
+                    break;
+                }
+                else
+                {
+                    cout << "Can't divide by zero!";
+                    break;
+                }
+            }
+            case '*': out = num1 * num2; break;
+            case '%': out = num1 % num2; break;
+            case '+': out = num1 + num2; break;
+            case '-': out = num1 - num2; break;
+            default:  cout << "That is not a valid operator, please try again."; break;
+        }
 
 
     cout <<" "<<num1<<" "<<op<<" "<<num2<<" = "<<out;
