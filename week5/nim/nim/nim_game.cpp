@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include <cstdio>
-
+#include <SFML/Graphics.hpp>
 
 using std::cout; using std::cin; using std::endl;
 using std::string; using std::vector;
