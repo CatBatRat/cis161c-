@@ -41,7 +41,7 @@ void _menu(settings&);
 int _player(settings&, int type=1);
 /* Print centered text to the screen. I plan to make this adaptable
  * and able to take more kinds of data.*/
-void _print_center(vector<string>& tocenter);
+void _print_center(vector<string>& tocenter, int width=68, char sfill='=');
 /* This is the bot 'NPC' in this game. It has both smart and dumb
  * modes. Don't make a mistake or it will roll you to the end.*/
 int _bot( int rem, int level );
@@ -60,8 +60,14 @@ int main()
     srand(time(0));
     settings sets;
     int again;
+    vector<string> intro = {
+        "Welcome to the game of Nim!",
+        "This is a game of numbers and cunning!",
+        "Can you master the math and come out victorious?"
+    }; _print_center(intro);
     do {
         _menu(sets);
+        _clear();
         sets.remaining = rand()%8+12;
         cout << "The starting number is " << sets.remaining;
         do {
@@ -91,7 +97,6 @@ int main()
         }; again = _validate(replay);
         _clear();
     } while( again == 1 );
-
     return 0;
 }
 
@@ -152,11 +157,6 @@ int _bot( int rem, int type )
 
 void _menu(settings& sets)
 {
-    vector<string> intro = {
-        "Welcome to the game of Nim!",
-        "This is a game of numbers and cunning!",
-        "Can you master the math and come out victorious?"
-    }; _print_center(intro);
     cout << endl;
     vector<string> p_type = {
         "Please select the game mode you want to play.",
@@ -173,9 +173,15 @@ void _menu(settings& sets)
 
 void _win(settings& sets)
 {
-    cout << endl;
+    string winner = "Player " + std::to_string(sets.turn) + " wins!";
+    vector<string> congrats {
+        winner,
+        "Congratulations to both players on a good game!"
+    };
+    _print_center(congrats,50,'*');
+    /*cout << endl;
     cout << "Player " << sets.turn << " wins!" << endl;
-    cout << "Congratulations to both players on a good game!" << endl;
+    cout << "Congratulations to both players on a good game!" << endl;*/
 }
 
 /* This function uses 'vectors' which allow for a greater degree of
@@ -219,16 +225,18 @@ int _validate(vector<string>& check,int limit)
  * fill character/s for each line. I will expand on this later to take
  * more options and allow for more kinds of formatting that are difficult
  * or inconvenient to achieve with the standard library.*/
-void _print_center(vector<string>& tocenter)
+void _print_center(vector<string>& tocenter, int width, char sfill)
 {
     int center;
-    for ( int x; x<tocenter.size();x++ )
+    for ( int x=0; x<tocenter.size();x++ )
     {
-        char sfill = '=';
-        string line = tocenter[x];
-        center = (68/2)-(tocenter[x].length()/2);
-        line.replace(0, 0, center, sfill);
-        cout << std::left << std::setfill(sfill);
-        cout << std::setw(68) << line << endl;
+        int to_pad = width - tocenter[x].length();
+        int left_pad = to_pad / 2;
+        int right_pad = to_pad - left_pad;
+        cout << std::string( left_pad, sfill )
+            << tocenter[x]
+            << std::string( right_pad, sfill )
+            << endl;
     }
 }
+

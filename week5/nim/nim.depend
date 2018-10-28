@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1540683119 source:/home/tadrith/lcc/cis161+/week5/nim/main.cpp
+	<iostream>
+	<iomanip>
+	<random>
+	<string>
+	<vector>
+	<cstdio>
+
