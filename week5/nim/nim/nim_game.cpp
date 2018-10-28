@@ -83,8 +83,8 @@ int main()
             // Check for 'win'. Current method is hard-coded and requires
             // two if statements. Will create something a bit more elegant
             // later.
-            if( sets.remaining <= 0 ) { _win(sets); break; }
-            sets.turn = ( sets.turn == 1 )?2:1;
+            if( sets.remaining <= 0 ) _win(sets);
+            else sets.turn = ( sets.turn == 1 )?2:1;
         } while ( sets.remaining > 0 );
         /* First example of the '_validate' function in use. The
          * corresponding number to enter will be shown next to each
@@ -216,7 +216,6 @@ int _validate(vector<string>& check,int limit)
             cout << "You must input a number from the list" << endl;
             cin.clear();
             cin.ignore();
-            continue;
         }
     }
 }
