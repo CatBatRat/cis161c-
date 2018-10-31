@@ -11,7 +11,7 @@
 using std::cout; using std::cin; using std::endl;
 using std::string; using std::vector;
 
-char clear_screen[] = "cls";
+char clear_screen[] = "clear";
 void _clear() {
     cout << std::flush;
     std::system(clear_screen);
@@ -69,22 +69,27 @@ int main()
         _menu(sets);
         _clear();
         sets.remaining = rand()%8+12;
-        cout << "The starting number is " << sets.remaining;
+        cout << "The starting number is " << sets.remaining << endl;
         do {
             // Print the current number of sticks
             cout << endl << std::setw(sets.remaining) << std::setfill('|') << "";
             cout << " " << sets.remaining << endl;
+            cout << "Player " << sets.turn << " it's your turn!" << endl;
             // Call the player and subtract the output from remaining.
             if( sets.turn == 1 )
+            {
                 sets.remaining -= _player( sets );
+            }
             else
+            {
                 sets.remaining -= _player( sets, sets.type );
+            }
             cout << sets.remaining << endl;
             // Check for 'win'. Current method is hard-coded and requires
             // two if statements. Will create something a bit more elegant
             // later.
-            if( sets.remaining <= 0 ) { _win(sets); break; }
-            sets.turn = ( sets.turn == 1 )?2:1;
+            if( sets.remaining <= 0 ) _win(sets);
+            else sets.turn = ( sets.turn == 1 )?2:1;
         } while ( sets.remaining > 0 );
         /* First example of the '_validate' function in use. The
          * corresponding number to enter will be shown next to each
@@ -122,7 +127,6 @@ int _player(settings& sets, int type)
         {
             choice = _validate(choices);
         }
-        cout << "Player " << type << " chooses " << choice << endl;
     }
     else
     {
@@ -130,8 +134,8 @@ int _player(settings& sets, int type)
          * to determine how many to take, along with the type '1-2'
          * which determine how the bot will decide on the next number.*/
         choice = _bot(sets.remaining, type);
-        cout << "Player 2 bot chooses " << choice << endl;
     }
+        cout << "Player " << sets.turn << " chooses " << choice << endl;
     return choice;
 }
 
@@ -216,7 +220,6 @@ int _validate(vector<string>& check,int limit)
             cout << "You must input a number from the list" << endl;
             cin.clear();
             cin.ignore();
-            continue;
         }
     }
 }
