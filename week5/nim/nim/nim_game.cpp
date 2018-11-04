@@ -1,18 +1,19 @@
-// vim:set autochdir:
-
 #include <iostream>
 #include <iomanip>
 #include <random>
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <limits>
+#include <thread>
+#include <chrono>
 
 
 using std::cout; using std::cin; using std::endl;
 using std::string; using std::vector;
 
-char clear_screen[] = "clear";
 void _clear() {
+    char clear_screen[] = "clear";
     cout << std::flush;
     std::system(clear_screen);
 }
@@ -28,32 +29,38 @@ struct settings {
      * 1: Human player
      * 2: Dumb bot
      * 3: Smart bot*/
-    int player;
     int type;
     int turn=1;
 };
 
+const int wait_time = 1000;
+
 
 // Main menu where type of game can be set.
 void _menu(settings&);
-/* Player function which can act as one of Player 1, Player 2,
- * and a Bot with two difficulty settings. */
-int _player(settings&, int type=1);
-/* Print centered text to the screen. I plan to make this adaptable
- * and able to take more kinds of data.*/
-void _print_center(vector<string>& tocenter, int width=68, char sfill='=');
-/* This is the bot 'NPC' in this game. It has both smart and dumb
- * modes. Don't make a mistake or it will roll you to the end.*/
-int _bot( int rem, int level );
+// Clear 'cin' of possible invalid data and ignore.
+void _cin_clear();
 /* Simply declares the winner and leaves it possible to increase
  * complexity of win conditions without having to clutter main.*/
 void _win(settings&);
+/* Print centered text to the screen. I plan to make this adaptable
+ * and able to take more kinds of data.*/
+void _print_center(vector<string>&, int width=68, char sfill='=');
+void sleep(int);
+void _print_line(int);
+/* Player function which can act as one of Player 1, Player 2,
+ * and a Bot with two difficulty settings. */
+int _player(settings&, int type=1);
+/* This is the bot 'NPC' in this game. It has both smart and dumb
+ * modes. Don't make a mistake or it will roll you to the end.*/
+int _bot( int, int );
 /* I am very proud of this one. Feed it a set of options and it will
  * ensure the user inputs the correct data before returning the value
  * entered. Number of option and value returned is based on list provided
  * meaning more options can be added and _validate will adapt to the
- * changes.*/
-int _validate(vector<string>& check,int limit=0);
+ * changes. 'limit' is changing the number of options at call time, so
+ * conditions other than number of elements can determine number of items.*/
+int _validate(vector<string>&,int limit=0);
 
 int main()
 {
@@ -69,10 +76,11 @@ int main()
         _menu(sets);
         _clear();
         sets.remaining = rand()%8+12;
-        cout << "The starting number is " << sets.remaining << endl;
+        //cout << "The starting number is " << sets.remaining << endl;
+        //_print_line(sets.remaining);
         do {
             // Print the current number of sticks
-            cout << endl << std::setw(sets.remaining) << std::setfill('|') << "";
+            _print_line(sets.remaining);
             cout << " " << sets.remaining << endl;
             cout << "Player " << sets.turn << " it's your turn!" << endl;
             // Call the player and subtract the output from remaining.
@@ -84,7 +92,6 @@ int main()
             {
                 sets.remaining -= _player( sets, sets.type );
             }
-            cout << sets.remaining << endl;
             // Check for 'win'. Current method is hard-coded and requires
             // two if statements. Will create something a bit more elegant
             // later.
@@ -134,8 +141,10 @@ int _player(settings& sets, int type)
          * to determine how many to take, along with the type '1-2'
          * which determine how the bot will decide on the next number.*/
         choice = _bot(sets.remaining, type);
+        sleep(wait_time);
     }
         cout << "Player " << sets.turn << " chooses " << choice << endl;
+        sleep(wait_time);
     return choice;
 }
 
@@ -149,7 +158,7 @@ int _bot( int rem, int type )
      * make a random if the result is 0. Else it will use the leftover
      * amount to ensure the number presented to player is a multiple
      * of 4; making the game impossible to win if the player choice brings
-     * the number of sticks to a multiple of 4.*/
+     * the number of sticks to a non multiple of 4.*/
     if ( type == 3 )
     {
         if( rem%4 == 0 ) choice = rand()%3+1;
@@ -182,21 +191,18 @@ void _win(settings& sets)
         winner,
         "Congratulations to both players on a good game!"
     };
-    _print_center(congrats,50,'*');
-    /*cout << endl;
-    cout << "Player " << sets.turn << " wins!" << endl;
-    cout << "Congratulations to both players on a good game!" << endl;*/
+    _print_center(congrats,56,'*');
 }
 
 /* This function uses 'vectors' which allow for a greater degree of
- * options when manipulating the contents, passing by reference, or
- * or more freedom when adding additional elements.*/
+ * options when manipulating the contents, passing by reference, and
+ * more freedom when adding additional elements.*/
 int _validate(vector<string>& check,int limit)
 {
     int option;
     if( limit == 0 ) limit=check.size();
     else limit = limit+1;
-    while(true)
+    do
     {
         cout << endl << check[0] << endl;
         /* Use the size (number of elements) of the vector to determine
@@ -205,23 +211,22 @@ int _validate(vector<string>& check,int limit)
         {
             cout << x << " ";
             cout << check[x] << endl;
+            sleep(300);
         }
         cin >> option;
         /* Compare input from the user and make sure sure only a number
          * from the list is input. The 'cin.clear()' and 'cin.ignore()'
          * is because of an infinite loop that happens when a letter is
-         * input. Outside of using regular expression, is there any way
-         * this situation? Also each letter will cause an additional trip
-         * through the loop; I suspect because each letter entered is
-         * considered as a separate integer?*/
-        if( option > 0 and option <= limit-1 ) return option;
-        else
+         * input. Looks like I missed part of the material on moodle it's
+         * fixed now.*/
+        if( cin.fail() or option < 1 or option > limit-1 )
         {
             cout << "You must input a number from the list" << endl;
-            cin.clear();
-            cin.ignore();
+            _cin_clear();
         }
-    }
+    } while( option < 1 or option > limit-1 );
+    _cin_clear();
+    return option;
 }
 
 /* This uses some simple math to print out some centered text and set a
@@ -240,6 +245,30 @@ void _print_center(vector<string>& tocenter, int width, char sfill)
             << tocenter[x]
             << std::string( right_pad, sfill )
             << endl;
+        sleep(wait_time);
     }
 }
 
+void sleep(int sleep_time)
+{
+    std::chrono::milliseconds timer(sleep_time);
+    std::this_thread::sleep_for(timer);
+}
+
+void _cin_clear()
+{
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+void _print_line(int iters)
+{
+    int sleeper = 1000;
+    for( int x=0;x<iters;x++ )
+    {
+        cout << '|';
+        cout << std::flush;
+        sleep(sleeper);
+        sleeper /= 1.66;
+    }
+}

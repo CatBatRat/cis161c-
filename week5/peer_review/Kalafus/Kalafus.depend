@@ -81,3 +81,85 @@
 	<iostream>
 	"user.h"
 
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/commissionCalculator.cpp
+	<iostream>
+	<limits>
+	"tool.h"
+	"commissionCalculator.h"
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/tool.h
+	<string>
+	<limits>
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/commissionCalculator.h
+
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/extrema.cpp
+	<iostream>
+	<limits>
+	"extrema.h"
+	"tool.h"
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/extrema.h
+
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/factor.cpp
+	<iostream>
+	"factor.h"
+	"tool.h"
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/factor.h
+
+1540767342 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/hackenbush.cpp
+	<iostream>
+	"tool.h"
+	"hackenbush.h"
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/hackenbush.h
+	<iostream>
+	<limits>
+	<cmath>
+
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/main.cpp
+	<iostream>
+	<limits>
+	"main.h"
+	"tool.h"
+	"user.h"
+	"randomTime.h"
+	"commissionCalculator.h"
+	"reversePolishNotationCalculator.h"
+	"factor.h"
+	"extrema.h"
+	"hackenbush.h"
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/main.h
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/user.h
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/randomTime.h
+
+1540766555 /home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/reversePolishNotationCalculator.h
+	<limits>
+	<string>
+
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/randomTime.cpp
+	<iostream>
+	<random>
+	<ctime>
+	<iomanip>
+
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/reversePolishNotationCalculator.cpp
+	<iostream>
+	<string>
+	"tool.h"
+	"reversePolishNotationCalculator.h"
+
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/tool.cpp
+	<cstring>
+	<iostream>
+	<limits>
+	"tool.h"
+
+1540766555 source:/home/tadrith/lcc/cis161+/week5/peer_review/Kalafus/user.cpp
+	<iostream>
+	"user.h"
+
