@@ -20,6 +20,7 @@ int main() {
     std::vector<string> choices = {
         "Please select the shape you would\n"
             "like to calculate the area of.",
+
         "Circle",
         "Square",
         "Rectangle",
