@@ -6,6 +6,7 @@
 #include <vector>
 #include <cstdio>
 #include <limits>
+#include <sstream>
 #include <thread>
 #include <chrono>
 
@@ -23,6 +24,8 @@ void _cin_clear();
 void _print_line(int iters);
 
 void _scroller(std::string,int width,std::string direc="left");
+
+double long _g_positive(std::string prompt);
 
 void _clear() {
     char clear_screen[] = "clear";
@@ -50,7 +53,7 @@ int _validate(std::vector<std::string>& check,int limit) {
         std::cin >> option;
         /* Compare input from the user and make sure sure only a number
          * from the list is input. */
-        if( std::cin.fail() or option < 1 or option > limit-1 ) {
+        if( std::cin.fail() or option < 1 or option > limit - 1 ) {
             std::cout << "You must input a number from the list" << std::endl;
             _cin_clear();
         }
@@ -64,9 +67,9 @@ int _validate(std::vector<std::string>& check,int limit) {
  * fill character/s for each line. I will expand on this later to take
  * more options and allow for more kinds of formatting that are difficult
  * or inconvenient to achieve with the standard library.*/
-void _print_center(std::vector<std::string>& tocenter, int width, char sfill) {
-    int center;
-    for ( int x=0; x<tocenter.size();x++ ) {
+void _print_center( std::vector<std::string>& tocenter, int width, char sfill ) {
+    int len = tocenter.size();
+    for ( int x=0; x<len;x++ ) {
         int to_pad = width - tocenter[x].length();
         int left_pad = to_pad / 2;
         int right_pad = to_pad - left_pad;
@@ -78,16 +81,18 @@ void _print_center(std::vector<std::string>& tocenter, int width, char sfill) {
     }
 }
 
-/* This function is used to scroll text in two ways. The first is scrolling from
- * left to right, much like a new ticker where text will scroll into and then
- * out of view. The second scrolls text in from left to right until the text is
- * fully in view. */
+/* This function is used to scroll text in two ways. The first is scrolling
+ * from right to left, much like a news ticker where text will scroll into and
+ * then out of view. The second scrolls text in from left to right until the
+ * text is fully in view. Useful for menu items and when you want to add a
+ * little extra flair to printed text. */
 void _scroller(std::string line,int width,std::string direc) {
     std::string output = "";
+    int len = line.size();
     if( direc == "right" ) {
-        for( int n=line.size()-1;n>=0;n-- ) {
+        for( int n = len - 1; n >= 0;n-- ) {
             // Uses the substring function to control how much text shows.
-            output = line.substr(n,line.size());
+            output = line.substr(n,len);
             std::cout << output;
             // Pause display for 30 milliseconds
             _sleep(30);
@@ -96,7 +101,7 @@ void _scroller(std::string line,int width,std::string direc) {
         }
     }
     else {
-        for( int n=0; n<=width+line.size(); n++ ) {
+        for( int n = 0; n <= width + len; n++ ) {
             // Create line of spaces matching 'width' then append 'line'.
             output = std::string(width,' ') + line;
             // Truncate start of 'line' each iteration until end of 'line'.
@@ -125,12 +130,18 @@ void _sleep(int sleep_time) {
     std::this_thread::sleep_for(timer);
 }
 
+/* Fully clears 'std::cin' of all contents. This has become a standard tool and
+ * there really isn't a reason not to use it after most uses of cin as it
+ * eliminates the possibility of the contents of 'std::cin' being reused
+ * unexpectedly. */
 void _cin_clear() {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-/**/
+/* This prints a single line animated. No matter how long the line it will
+ * always take approximately the same time to print as the delay between
+ * characters decreases by 2/3 with every iteration.*/
 void _print_line(int iters) {
     int sleeper = 1000;
     for( int x=0;x<iters;x++ ) {
@@ -141,6 +152,7 @@ void _print_line(int iters) {
     }
 }
 
+
 std::string _dec_string(double num, int prec)
 {
     std::ostringstream to_dec;
@@ -149,5 +161,25 @@ std::string _dec_string(double num, int prec)
     to_dec << num;
     std::string dec = to_dec.str();
     return dec;
+}
+
+/* Get input from the user and check if valid input. Can also be given a string
+ * for use as the prompt for the user allowing to change the prompt for each
+ * call to this function, which is important as it will then become part of the
+ * loop and won't be lost on subsequent iterations.*/
+double long _g_positive(std::string prompt) {
+    double long num = 0;
+    bool go = true;
+    do {
+        std::cout << prompt << std::endl;
+        std::cout << "Entering a non number or 0 will exit" << std::endl;
+        std::cin >> num;
+        _cin_clear();
+        if(num == 0) return 0;
+        if(num <= 0) std::cout << "You must input a positive number." << std::endl;
+        else go=false;
+    } while ( go );
+    std::cout << std::endl;
+    return num;
 }
 #endif

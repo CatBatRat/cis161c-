@@ -3,8 +3,8 @@ HEADERS=qolife.h
 OUT=geometry
 
 c: $(CC) $(HEADERS)
-	g++ $(CC) $(HEADERS) -o $(OUT) -std=c++14
+	xterm -T compiling -hold -e g++ -Wall $(CC) $(HEADERS) -o $(OUT) -std=c++11
 
 r: geometry
 	clear
-	./$(OUT)
+	xterm -T $(OUT) -hold -e ./$(OUT)
