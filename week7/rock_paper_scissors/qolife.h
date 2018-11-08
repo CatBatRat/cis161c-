@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <vector>
 #include <cstdio>
+#include <locale>
 #include <limits>
 #include <sstream>
 #include <thread>
@@ -183,11 +184,18 @@ double long _g_positive( std::string prompt ) {
     return num;
 }
 
-std::string _to_lower(std::string str) {
-    std::ostream os;
-    os << "String test";
-    str = std::to_string(os);
-    return str;
+std::string _to_lower(std::string& str) {
+    std::string os;
+    int len = str.size();
+    for( auto x=0;x<len;x++ ) {
+        os += tolower(str[x]);
+    }
+    return os;
+}
+
+void _wait_enter() {
+    std::string hold;
+    std::getline(std::cin, hold);
 }
 
 #endif

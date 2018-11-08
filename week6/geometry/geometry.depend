@@ -1,9 +1,12 @@
 # depslib dependency file v1.0
-1541366727 source:/home/tadrith/lcc/cis161+/week6/geometry/main.cpp
+1541469397 source:/home/tadrith/lcc/cis161+/week6/geometry/main.cpp
 	<iostream>
+	<string>
 	"qolife.h"
+	<cmath>
+	<vector>
 
-1541366995 /home/tadrith/lcc/cis161+/week6/geometry/qolife.h
+1541487333 /home/tadrith/lcc/cis161+/week6/geometry/qolife.h
 	<iostream>
 	<iomanip>
 	<vector>

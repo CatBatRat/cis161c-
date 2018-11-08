@@ -11,32 +11,32 @@
 #include <chrono>
 
 
-int _validate( std::vector<std::string>&, int limit = 0 );
+int _validate(std::vector<std::string>&,int limit=0);
 
-std::string _dec_string( double, int prec = 5, bool fixed = false );
+std::string _dec_string(double, int prec=5, bool fixed=false);
 
-void _print_center( std::vector<std::string>&, int width, char sfill = '#' );
+void _print_center(std::vector<std::string>&, int width, char sfill='#');
 
-void _sleep( int sleep_time );
+void _sleep(int sleep_time);
 
 void _cin_clear();
 
-void _print_line( int iters );
+void _print_line(int iters);
 
-void _scroller( std::string, int width, std::string direc = "left" );
+void _scroller(std::string,int width,std::string direc="left");
 
-double long _g_positive( std::string prompt );
+double long _g_positive(std::string prompt);
 
 void _clear() {
     char clear_screen[] = "clear";
     std::cout << std::flush;
-    std::system( clear_screen );
+    std::system(clear_screen);
 }
 
 /* This function uses 'vectors' which allow for a greater degree of
  * options when manipulating the contents, passing by reference, or
  * adding additional elements.*/
-int _validate( std::vector<std::string>& check, int limit ) {
+int _validate(std::vector<std::string>& check,int limit) {
     int option;
     std::string output = "";
     if( limit == 0 ) limit=check.size();
@@ -47,7 +47,7 @@ int _validate( std::vector<std::string>& check, int limit ) {
          * how many to print and which number to show next to each option.*/
         for( int x=1;x<limit;x++ ) {
             output = std::to_string(x) + " " + check[x];
-            _scroller( output, 40, "right" );
+            _scroller(output,40,"right");
             std::cout << std::endl;
         }
         std::cin >> option;
@@ -69,7 +69,7 @@ int _validate( std::vector<std::string>& check, int limit ) {
  * or inconvenient to achieve with the standard library.*/
 void _print_center( std::vector<std::string>& tocenter, int width, char sfill ) {
     int len = tocenter.size();
-    for ( int x = 0; x < len; x++ ) {
+    for ( int x=0; x<len;x++ ) {
         int to_pad = width - tocenter[x].length();
         int left_pad = to_pad / 2;
         int right_pad = to_pad - left_pad;
@@ -77,7 +77,7 @@ void _print_center( std::vector<std::string>& tocenter, int width, char sfill ) 
             << tocenter[x]
             << std::string( right_pad, sfill )
             << std::endl;
-        _sleep( 1000 );
+        _sleep(1000);
     }
 }
 
@@ -86,16 +86,16 @@ void _print_center( std::vector<std::string>& tocenter, int width, char sfill ) 
  * then out of view. The second scrolls text in from left to right until the
  * text is fully in view. Useful for menu items and when you want to add a
  * little extra flair to printed text. */
-void _scroller( std::string line, int width, std::string direc ) {
+void _scroller(std::string line,int width,std::string direc) {
     std::string output = "";
     int len = line.size();
     if( direc == "right" ) {
-        for( int n = len - 1; n >= 0; n-- ) {
+        for( int n = len - 1; n >= 0;n-- ) {
             // Uses the substring function to control how much text shows.
-            output = line.substr( n, len );
+            output = line.substr(n,len);
             std::cout << output;
             // Pause display for 30 milliseconds
-            _sleep( 30 );
+            _sleep(30);
             // Flush the line, then return to beginning.
             std::cout << std::flush << '\r';
         }
@@ -103,14 +103,14 @@ void _scroller( std::string line, int width, std::string direc ) {
     else {
         for( int n = 0; n <= width + len; n++ ) {
             // Create line of spaces matching 'width' then append 'line'.
-            output = std::string( width, ' ' ) + line;
+            output = std::string(width,' ') + line;
             // Truncate start of 'line' each iteration until end of 'line'.
-            output = output.substr( n, output.size() ) + std::string( n, ' ' );
+            output = output.substr(n, output.size()) + std::string(n, ' ');
             // Set end of line to match 'width' to create the scroll in effect.
-            output.resize( width );
+            output.resize(width);
             std::cout << output;
             // Sleep for 80 milliseconds which seems to be a comfortable speed.
-            _sleep( 80 );
+            _sleep(80);
             // Flush the line, then return to beginning.
             std::cout << std::flush << '\r';
         }
@@ -123,11 +123,11 @@ void _scroller( std::string line, int width, std::string direc ) {
 
 /* Creates a sleep timer that should be compatible with whatever system it is
  * used on.*/
-void _sleep( int sleep_time ) {
+void _sleep(int sleep_time) {
     // Gets time according to running system and stores value in 'timer'.
-    std::chrono::milliseconds timer( sleep_time );
+    std::chrono::milliseconds timer(sleep_time);
     // Runs the 'sleep_for' command using the value of 'timer'.
-    std::this_thread::sleep_for( timer );
+    std::this_thread::sleep_for(timer);
 }
 
 /* Fully clears 'std::cin' of all contents. This has become a standard tool and
@@ -136,15 +136,15 @@ void _sleep( int sleep_time ) {
  * unexpectedly. */
 void _cin_clear() {
     std::cin.clear();
-    std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 /* This prints a single line animated. No matter how long the line it will
  * always take approximately the same time to print as the delay between
  * characters decreases by 2/3 with every iteration.*/
-void _print_line( int iters ) {
+void _print_line(int iters) {
     int sleeper = 1000;
-    for( int x = 0; x < iters; x++ ) {
+    for( int x=0;x<iters;x++ ) {
         std::cout << '|';
         std::cout << std::flush;
         _sleep(sleeper);
@@ -153,11 +153,11 @@ void _print_line( int iters ) {
 }
 
 
-std::string _dec_string( double num, int prec, bool fixed )
+std::string _dec_string(double num, int prec, bool fixed)
 {
     std::ostringstream to_dec;
     if( fixed ) to_dec << std::fixed;
-    to_dec << std::setprecision( prec );
+    to_dec << std::setprecision(prec);
     to_dec << num;
     std::string dec = to_dec.str();
     return dec;
@@ -167,7 +167,7 @@ std::string _dec_string( double num, int prec, bool fixed )
  * for use as the prompt for the user allowing to change the prompt for each
  * call to this function, which is important as it will then become part of the
  * loop and won't be lost on subsequent iterations.*/
-double long _g_positive( std::string prompt ) {
+double long _g_positive(std::string prompt) {
     double long num = 0;
     bool go = true;
     do {
@@ -175,19 +175,11 @@ double long _g_positive( std::string prompt ) {
         std::cout << "Entering a non number or 0 will exit" << std::endl;
         std::cin >> num;
         _cin_clear();
-        if( num == 0 ) return 0;
-        if( num <= 0 ) std::cout << "You must input a positive number." << std::endl;
+        if(num == 0) return 0;
+        if(num <= 0) std::cout << "You must input a positive number." << std::endl;
         else go=false;
     } while ( go );
     std::cout << std::endl;
     return num;
 }
-
-std::string _to_lower(std::string str) {
-    std::ostream os;
-    os << "String test";
-    str = std::to_string(os);
-    return str;
-}
-
 #endif
