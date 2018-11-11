@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1541872671 source:/home/tadrith/lcc/cis161+/week7/requests_for_help/fullerlab7/guessthenumber/main.cpp
+	<iostream>
+	<cstdlib>
+

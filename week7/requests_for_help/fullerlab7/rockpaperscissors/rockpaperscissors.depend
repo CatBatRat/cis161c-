@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1541844360 source:/home/hojoz/.programs/rockpaperscissors/main.cpp
+	<iostream>
+	<cstdlib>
+

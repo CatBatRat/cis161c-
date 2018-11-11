@@ -7,4 +7,4 @@ c: $(CC) $(HEADERS)
 
 r: $(OUT)
 	clear
-	xterm -T $(OUT) -e ./$(OUT)
+	xterm -hold -T $(OUT) -e ./$(OUT)
