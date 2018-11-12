@@ -17,10 +17,15 @@ int get_input();
 int check_input(int,int,int);
 bool play_again();
 
+/* Still working on keeping main() as clean as possible. Idealy I
+ * want to have it be nothing but a loop, function calls, and variables.
+ * I am getting closer, trimming the fat and all, but it does require
+ * a shift in my way of thinking. */
 int main() {
     std::srand(std::time(0));
     intro();
     do {
+		// Set the starting random number between 1 and 99.
         int number = rand() % 99 + 1;
         int tries = 1;
         int input = 0;
@@ -31,14 +36,18 @@ int main() {
             input = get_input();
             score = check_input(input,number,score);
             tries++;
+		// While score above zero (loss) and input != number (win)
         } while( score > 0 and input != number );
+		// Bit of a snarky comment from the computer
+		// thought I would have a little fun with this
         if( score < 1 ) cout << "\nYou have failed to read my mind.\n"
                                 "You have a long way to go before you're\n"
                                 "ready for more than card tricks.\n" << endl;
+		// Make sure to display the final score and number of tries
         cout << "Your final score is " << score
              << "\nand it took you " << tries << " tries." << endl;
+    // Use the play again function to see if the game should continue
     }while( play_again() == true );
-
 
     return 0;
 }
@@ -61,6 +70,10 @@ void intro() {
         "with every wrong guess! There is a bonus",
         "for ending with 5 or more points."
     };
+	/* Made some changes to my _print_center function. Now I can
+	 * provide optional left and right fill characters. Later I
+	 * Plan to change this to used function overloading. Then calls
+	 * will be much simpiler. */
     _print_center( ins, 50, 300, '{','}' );
     _wait_enter();
 }
