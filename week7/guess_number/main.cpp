@@ -22,14 +22,15 @@ bool play_again();
  * I am getting closer, trimming the fat and all, but it does require
  * a shift in my way of thinking. */
 int main() {
+	int number, tries, input, score;
     std::srand(std::time(0));
     intro();
     do {
 		// Set the starting random number between 1 and 99.
-        int number = rand() % 99 + 1;
-        int tries = 1;
-        int input = 0;
-        int score = START;
+        number = rand() % 99 + 1;
+        tries = 1;
+        input = 0;
+        score = START;
         cout << "I'm thinking of a number between 1 and 99" << endl;
         do {
             cout << "\nPlayer score = "<< score << endl;
