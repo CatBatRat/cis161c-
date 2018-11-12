@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <string>
 #include <cstdio>
+#include <curses.h>
 #include <regex>
 
 using namespace std;
@@ -49,11 +50,20 @@ int main()
 
         switch(enter)
         {
-            case 1: _minmax(); break;
-            case 2: _factors(); break;
-            case 3: _commission(); break;
-            case 4: _calculator(); break;
-            case 0: return 0;
+            case 1:
+                    _minmax();
+                    break;
+            case 2:
+                    _factors();
+                    break;
+            case 3:
+                    _commission();
+                    break;
+            case 4:
+                    _calculator();
+                    break;
+            case 0:
+                    return 0;
             default: cout << "Please input a valid number from the list,\n"
                              "or enter \"0\" to exit.\n\n";
         }
@@ -68,9 +78,6 @@ int _minmax()
             "will identify the highest and lowest number then\n"
             "display the difference between the two.\n"
             "You may enter a \"0\" at any time to exit this program.\n\n";
-    lowest = input;
-    highest = input;
-
     bool first = true;
 
     while(true)
@@ -79,28 +86,32 @@ int _minmax()
         cin >> input;
         cout << flush;
         system(clr);
-        if ( input == 0 ) return 0;
-        if ( input < 1 || input > 100 )
-        {
-            cout << "You must input a number between 1 and 100." << endl;
-            continue;
-        }
-        if(first)
-        {
-            cout <<left<< "The first integer you have entered is #" << input << "\n\n";
+        if(first == true) {
+            cout <<left<< "The first integer you have entered is #"
+                << input << "\n\n";
             lowest = input;
             highest = input;
             first = false;
         }
-        if(input < lowest)
-            lowest = input;
-        else if(input > highest)
-            highest = input;
-        if(input)
-        {
-            cout <<left<< w(43,"  The lowest integer you have entered is") << lowest << endl;
-            cout <<left<< w(43,"  The highest integer you have entered is") << highest << endl;
-            cout <<left<< w(43,"The difference between the two integers is") << highest - lowest << "\n\n\n";
+        else {
+            if ( input == 0 )
+                return 0;
+            if ( input < 1 || input > 100 ) {
+                cout << "You must input a number between 1 and 100." << endl;
+                continue;
+            }
+            if(input < lowest)
+                lowest = input;
+            else if(input > highest)
+                highest = input;
+            if(input) {
+                cout << left << w(43,"  The lowest integer you have entered is")
+                    << lowest << endl;
+                cout << left << w(43,"  The highest integer you have entered is")
+                    << highest << endl;
+                cout <<left<< w(43,"The difference between the two integers is")
+                    << highest - lowest << "\n\n\n";
+            }
         }
 
     }
@@ -116,7 +127,7 @@ int _factors()
     cout << "Please input the integer you would like to know the factors of.\n"
             "Must be greater than \"0\". NO negative integers.\n\n";
 
-    while(number)
+    while(number != 0)
     {
         cin.clear();
         cin.ignore();
@@ -132,15 +143,12 @@ int _factors()
         }
         else
         {
+            cout << "The factors of " << number << " are" << endl;
             for(int x=number/2;x > 1; x--)
             {
-                (number%x == 0)?out += to_string(x) + " ":out += "";
+                (number%x == 0)?cout << x << " ":cout;
             }
-            out += "and 1.";
-            cout << "The factors of " << number << " are\n" <<
-                    number << " " << out;
-                    out = "";
-
+            cout << "and 1.";
         }
         cout << "\nYou may now enter an additional number, or input \"0\"\n"
                 "to return to the main menu.\n\n";
@@ -190,7 +198,8 @@ int _commission()
         cout << flush;
         system(clr);
         // Exit program upon entering 0
-        if( input == 0 ) return 0;
+        if( input == 0 )
+            return 0;
         // Set go = 0 upon negative number entry
         if( input <= 0 )
         {

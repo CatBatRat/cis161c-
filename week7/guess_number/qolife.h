@@ -1,11 +1,10 @@
 #ifndef __QO_LIFE__
 #define __QO_LIFE__
 
-#include <iostream>
-#include <iomanip>
-#include <vector>
-#include <cstdio>
-#include <locale>
+#include <iostream> // std::cin, std::cout, std::endl
+#include <vector>   // std::vector
+#include <cstdio>   // std::exit(), std::system()
+#include <locale>   //
 #include <limits>
 #include <sstream>
 #include <thread>
@@ -16,8 +15,8 @@ int _validate( std::vector<std::string>&, int limit = 0 );
 
 std::string _dec_string( double, int prec = 5, bool fixed = false );
 
-void _print_center( std::vector<std::string>&,
-        int width=74, int delay=1000, char lfill = '#', char rfill='\n' );
+void _print_center( std::vector<std::string>&, int width=74,
+        int delay=1000, char lfill = '#', char rfill='\n' );
 
 void _sleep( int sleep_time );
 
@@ -141,7 +140,8 @@ void _sleep( int sleep_time ) {
 /* Fully clears 'std::cin' of all contents. This has become a standard tool and
  * there really isn't a reason not to use it after most uses of cin as it
  * eliminates the possibility of the contents of 'std::cin' being reused
- * unexpectedly. */
+ * unexpectedly. EOF now exits the program cleanly, will see about adding a
+ * prompt in case the button combo was pressed on accident. */
 void _cin_clear() {
     if( std::cin.eof()) {
             std::cout << "Exit command received." << std::endl;
@@ -165,6 +165,8 @@ void _print_line( int iters ) {
 }
 
 
+/* This takes a double and sets the precision using a string stream object
+ * where I can store the formatting then convert it to a string. */
 std::string _dec_string( double num, int prec, bool fixed )
 {
     std::ostringstream to_dec;
@@ -204,6 +206,8 @@ std::string _to_lower(std::string& str) {
     return os;
 }
 
+/* Discovered std::getline() will end on Enter press, so this makes a great
+ * tool to pause a program until key press. */
 void _wait_enter() {
     std::string hold;
     std::cout << "\nPress Enter to continue";

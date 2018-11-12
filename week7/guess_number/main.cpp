@@ -13,8 +13,9 @@ using std::string;
 const int START = 10;
 
 void intro();
-int get_input();
-int check_input(int,int,int);
+void set_start(int&,int&,int&,int&);
+void get_input(int&);
+void check_input(int&,int&,int&);
 bool play_again();
 
 /* Still working on keeping main() as clean as possible. Idealy I
@@ -22,29 +23,29 @@ bool play_again();
  * I am getting closer, trimming the fat and all, but it does require
  * a shift in my way of thinking. */
 int main() {
-	int number, tries, input, score;
+    int number, tries, input, score;
     std::srand(std::time(0));
     intro();
     do {
-		// Set the starting random number between 1 and 99.
-        number = rand() % 99 + 1;
-        tries = 1;
-        input = 0;
-        score = START;
+        // Set the starting random number between 1 and 99.
+        set_start(number,tries,input,score);
         cout << "I'm thinking of a number between 1 and 99" << endl;
         do {
             cout << "\nPlayer score = "<< score << endl;
-            input = get_input();
-            score = check_input(input,number,score);
+            get_input(input);
+            check_input(input,number,score);
             tries++;
-		// While score above zero (loss) and input != number (win)
+        // While score above zero (loss) and input != number (win)
         } while( score > 0 and input != number );
-		// Bit of a snarky comment from the computer
-		// thought I would have a little fun with this
-        if( score < 1 ) cout << "\nYou have failed to read my mind.\n"
-                                "You have a long way to go before you're\n"
-                                "ready for more than card tricks.\n" << endl;
-		// Make sure to display the final score and number of tries
+        // Bit of a snarky comment from the computer
+        // thought I would have a little fun with this
+        if( score < 1 ) {
+            score = 0;
+            cout << "\nYou have failed to read my mind.\n"
+                    "You have a long way to go before you're\n"
+                    "ready for more than card tricks.\n" << endl;
+        }
+        // Make sure to display the final score and number of tries
         cout << "Your final score is " << score
              << "\nand it took you " << tries << " tries." << endl;
     // Use the play again function to see if the game should continue
@@ -71,31 +72,33 @@ void intro() {
         "with every wrong guess! There is a bonus",
         "for ending with 5 or more points."
     };
-	/* Made some changes to my _print_center function. Now I can
-	 * provide optional left and right fill characters. Later I
-	 * Plan to change this to used function overloading. Then calls
-	 * will be much simpiler. */
+    /* Made some changes to my _print_center function. Now I can
+     * provide optional left and right fill characters. Later I
+     * Plan to change this to used function overloading. Then calls
+     * will be much simpiler. */
     _print_center( ins, 50, 300, '{','}' );
     _wait_enter();
 }
 
-int get_input() {
-    int input;
+void get_input(int& input) {
     _scroller("Tell me what number I'm thinking.","right");
     bool exit = false;
     do {
         cout << endl;
         cout << "Answer : ";
         cin >> input;
+        /* Modified _cin_clear to handle EOF as well as this can cuase the
+         * program to enter an infinite loop. Will look intor other methods to
+         * handle this case but for now it also acts as convenient way to exit
+         * the program as I call this whenever I use cin. */
         _cin_clear();
         if( !(input) or input > 99 or input < 1 )
             cout << "That is not a valid answer. Try again." << endl;
         else exit = true;
     } while( !(exit) );
-    return input;
 }
 
-int check_input(int input, int number, int score) {
+void check_input(int& input, int& number, int& score) {
     if( input < number ) {
         if( number - input < 10 ) {
             cout << "Your less than 10 lower, so I'll only take one point." << endl;
@@ -117,7 +120,7 @@ int check_input(int input, int number, int score) {
         }
     }
     else {
-        cout << "You read my mind!";
+        cout << "\nYou read my mind!";
         if( score < 5 ) cout << " Took you long enough, but you got it.";
         else {
             cout << "\nHere's a bonus for doing it so fast!" << endl;
@@ -126,7 +129,6 @@ int check_input(int input, int number, int score) {
         }
         cout << endl;
     }
-    return score;
 }
 
 bool play_again() {
@@ -136,4 +138,11 @@ bool play_again() {
     play = _to_lower(play);
     if( play == "yes" ) return true;
     else return false;
+}
+
+void set_start(int& number,int& tries,int& input,int& score) {
+    number = rand() % 99 + 1;
+    tries = 1;
+    input = 0;
+    score = START;
 }
