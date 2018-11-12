@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1541996715 source:/home/tadrith/lcc/cis161+/week7/rock_paper_scissors/main.cpp
+1541996609 source:/home/tadrith/lcc/cis161+/week7/guess_number/main.cpp
 	<iostream>
-	<random>
+	<iomanip>
 	<string>
+	<random>
 	<vector>
 	"qolife.h"
 
-1541997437 /home/tadrith/lcc/cis161+/week7/rock_paper_scissors/qolife.h
+1541997461 /home/tadrith/lcc/cis161+/week7/guess_number/qolife.h
 	<iostream>
 	<iomanip>
 	<vector>
