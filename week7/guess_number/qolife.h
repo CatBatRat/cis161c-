@@ -2,6 +2,7 @@
 #define __QO_LIFE__
 
 #include <iostream> // std::cin, std::cout, std::endl
+#include <iomanip>  // std::setprecision, std::fixed
 #include <vector>   // std::vector
 #include <cstdio>   // std::exit(), std::system()
 #include <locale>   //
@@ -15,7 +16,7 @@ int _validate( std::vector<std::string>&, int limit = 0 );
 
 std::string _dec_string( double, int prec = 5, bool fixed = false );
 
-void _print_center( std::vector<std::string>&, int width=74,
+void _print_center( std::vector<std::string>, int width=74,
         int delay=1000, char lfill = '#', char rfill='\n' );
 
 void _sleep( int sleep_time );
@@ -27,6 +28,8 @@ void _print_line( int iters );
 void _scroller( std::string, std::string direc = "left", int width=0 );
 
 double long _g_positive( std::string prompt );
+
+std::string _to_lower(std::string& str);
 
 void _wait_enter();
 
@@ -42,7 +45,8 @@ void _clear() {
 int _validate( std::vector<std::string>& check, int limit ) {
     int option;
     std::string output = "";
-    if( limit == 0 ) limit=check.size();
+    if( limit == 0 )
+        limit=check.size();
     else limit = limit+1;
     do {
         std::cout << std::endl << check[0] << std::endl;
@@ -54,14 +58,13 @@ int _validate( std::vector<std::string>& check, int limit ) {
             std::cout << std::endl;
         }
         std::cin >> option;
+        _cin_clear();
         /* Compare input from the user and make sure sure only a number
          * from the list is input. */
-        if( std::cin.fail() or option < 1 or option > limit - 1 ) {
+        if( option < 1 or option > limit - 1 ) {
             std::cout << "You must input a number from the list" << std::endl;
-            _cin_clear();
         }
     } while( option < 1 or option > limit-1 );
-    _cin_clear();
     std::cout << std::endl;
     return option;
 }
@@ -71,10 +74,11 @@ int _validate( std::vector<std::string>& check, int limit ) {
  * but they will auto match each other if only one is provided. I have also
  * added the ability to set the speed lines are displayed at function call, as
  * well as setting a default width.*/
-void _print_center( std::vector<std::string>& tocenter,
+void _print_center( std::vector<std::string> tocenter,
         int width, int delay, char lfill, char rfill ) {
     int len = tocenter.size();
-    if( rfill == '\n' ) rfill = lfill;
+    if( rfill == '\n' )
+        rfill = lfill;
     for ( int x = 0; x < len; x++ ) {
         int to_pad = width - tocenter[x].length();
         int left_pad = to_pad / 2;
@@ -95,7 +99,8 @@ void _print_center( std::vector<std::string>& tocenter,
 void _scroller( std::string line, std::string direc, int width ) {
     std::string output = "";
     int len = line.size();
-    if( width == 0 ) width = line.size();
+    if( width == 0 )
+        width = line.size();
     if( direc == "right" ) {
         for( int n = len - 1; n >= 0; n-- ) {
             // Uses the substring function to control how much text shows.
@@ -170,7 +175,8 @@ void _print_line( int iters ) {
 std::string _dec_string( double num, int prec, bool fixed )
 {
     std::ostringstream to_dec;
-    if( fixed ) to_dec << std::fixed;
+    if( fixed )
+        to_dec << std::fixed;
     to_dec << std::setprecision( prec );
     to_dec << num;
     std::string dec = to_dec.str();
@@ -189,10 +195,13 @@ double long _g_positive( std::string prompt ) {
         std::cout << "Entering a non number or 0 will exit" << std::endl;
         std::cin >> num;
         _cin_clear();
-        if( num == 0 ) return 0;
-        if( num <= 0 ) std::cout << "You must input a positive number." << std::endl;
-        else go=false;
-    } while ( go );
+        if( num == 0 )
+            return 0;
+        if( num <= 0 )
+            std::cout << "You must input a positive number." << std::endl;
+        else
+            go=false;
+    } while( go );
     std::cout << std::endl;
     return num;
 }
@@ -212,6 +221,7 @@ void _wait_enter() {
     std::string hold;
     std::cout << "\nPress Enter to continue";
     std::getline(std::cin, hold);
+    _cin_clear();
     std::cout << std::endl << std::endl;
 }
 

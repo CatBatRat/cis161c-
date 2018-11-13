@@ -6,34 +6,34 @@
 
 using std::cout; using std::cin; using std::endl;
 
-const int MIN = 1, MAX = 100;
-//const std::string regex_match_string = R"((r|p|s|q)(ock|aper|cissors|uit)?)";
-
 void intro();
 char match_input(std::string input);
 int get_choice();
 int get_bot();
-int round_winner(int,int);
+void round_winner(int,int,int&,int&);
 void game_winner(int,int);
-bool playAgain();
+bool play_again();
 
+/* I have put a great deal of work into finding ways to keep main() as clean as
+ * possible. I use it to start things and to check if things should continue,
+ * but I prefer to rely on the functions I have made to do all of the heavy
+ * lifting. It is so much easier to debug code this way and I can often make
+ * very large changes to the function of the program very quickly and without
+ * errors because it is so clear where things are happening. This way tasks
+ * aren't scattered all over the and there is no need to unravel what is going
+ * on or unwind some complex task in order to make a small change. */
 int main()
 {
+    int round;
+    int p1s, p2s; // Player 1 and Player 2 score.
     srand(time(0));
+    // Show the intro and instructions to the user
     intro();
     do {
-        int round = 1;
-        int win = 0;
-        int p1s = 0, p2s = 0; // Player 1 and Player 2 score.
+        round = 1;
+        p1s = 0; p2s = 0; // Player 1 and Player 2 starting score.
         while( p1s + p2s < 5 ) {
-            cout << endl;
-            cout << "Please select your move for this round." << endl;
-            // Show the intro and instructions to the user
-            int choice = get_choice();
-            win = round_winner(choice,get_bot());
-            if( win == 1 ) {cout << "Player 1 wins" << endl;p1s++;}
-            else if( win == 0 ) {cout << "Player 2 wins" << endl;p2s++;}
-            else cout << "It's a draw" << endl;
+            round_winner(get_choice(),get_bot(),p1s,p2s);
             round++;
             cout << "::Score::\n"
                  << "   Player 1: " << p1s << endl
@@ -42,7 +42,7 @@ int main()
         cout << endl;
         game_winner(p1s,p2s);
         cout << "The game lasted " << round << " rounds." << endl;
-    } while(playAgain() == true);
+    } while(play_again() == true);
 
     cout << "Goodbye!" << endl;
 
@@ -50,19 +50,18 @@ int main()
 }
 
 void intro() {
-    std::vector<std::string> intro = {
-        "This is the game of Rock/Paper/Scissors!",
+    _print_center(
+        { "This is the game of Rock/Paper/Scissors!",
         "You will play against a computer opponent, but he",
         "isn't very smart. Try to go easy on the poor guy.",
         "Rock beats Scissors, Scissors beats Paper, Paper beats Rock.",
-        "Best out of five, wins!"
-    };
-    _print_center(intro, 62, 300, ' ');
+        "Best out of five, wins!" } , 62, 300, ' ');
 }
 
 int get_choice() {
     std::string input = "";
     char choice = '0';
+    cout << "\nPlease select your move for this round." << endl;
     while( true ) {
         cin >> input;
         _cin_clear();
@@ -81,20 +80,8 @@ int get_choice() {
     }
 }
 
-/* I was using a regex match here but I found that my own method was muthc
- * simplier and I didn't have to wait so long for the program to compile and
- * run as my method is several orders of magnitude faster. */
-/*char match_input(std::string input) {
-    using namespace std::regex_constants;
-    std::regex matcher(regex_match_string,icase);
-    std::smatch output;
-    std::regex_match(input,output,matcher);
-    if( output.empty() ) return '0';
-    char result = static_cast<std::string>( output[1] )[0];
-    result = std::tolower(result);
-    return result;
-}*/
-
+/* Uses a list of items as comparison to see if what the user entered is valid
+ * then returns the first letter of what the user entered. */
 char match_input(std::string input) {
     char output;
     std::vector<std::string> ops = {"rock","paper","scissors","quit","yes"};
@@ -110,7 +97,9 @@ char match_input(std::string input) {
     return output;
 }
 
-int round_winner(int p1,int p2) {
+/* Checks for three win types and a type. Checking for these means there is only
+ * one set of combos and they all result in player 1 winning. */
+void round_winner(int p1,int p2,int& p1s,int& p2s) {
     int win;
     std::vector<std::string> c = {"Rock","Paper","Scissors"};
     if( p1 == p2 ) win = 3;
@@ -120,31 +109,45 @@ int round_winner(int p1,int p2) {
     else if( p1 == 2 and p2 == 0 ) win = 0;
     else win = 1;
     cout << "Player 1 chooses " << c[p1] << " and Player 2 chooses " << c[p2] << endl;
-    if( win == 0 ) cout << c[p2] << " beats " << c[p1] << endl;
-    if( win == 1 ) cout << c[p1] << " beats " << c[p2] << endl;
-    if( win == 3 ) cout << c[p1] << " matches " << c[p2] << endl;
-    return win;
+    if( win == 0 ) {
+        cout << c[p2] << " beats " << c[p1] << endl;
+        cout << "Player 2 wins" << endl;
+        p2s++;
+    }
+    if( win == 1 ) {
+        cout << c[p1] << " beats " << c[p2] << endl;
+        cout << "Player 1 wins" << endl;
+        p1s++;
+    }
+    if( win == 3 ) {
+        cout << c[p1] << " matches " << c[p2] << endl;
+        cout << "It's a draw" << endl;
+    }
 }
 
 int get_bot() {
     return rand() % 3;
 }
 
-bool playAgain() {
+bool play_again() {
     cout << "Would you like to play again?" << endl;
     std::string again;
     cin >> again;
     _cin_clear();
+    /* match_input() only returns the first letter of a word but the user must
+     * input the either the full word or the first letter in order to match. */
     return (match_input(again) == 'y')?true:false;
 }
 
+// Compare score to find match winner.
 void game_winner(int p1, int p2) {
     if( p1 > p2 )
-           cout << "You won this match!" << endl
-                << "The final score is " << p1 << " to " << p2 << endl
-                << "Congratulations on your win!" << endl;
-    else   cout << "You have lost this match." << endl
-                << "The final score is " << p1 << " to " << p2 << endl
-                << "Better luck next time." << endl;
+        cout << "You won this match!\n"
+            << "The final score is " << p1 << " to " << p2
+            << "\nCongratulations on your win!" << endl;
+    else
+        cout << "You have lost this match.\n"
+            << "The final score is " << p1 << " to " << p2
+            << "\nBetter luck next time." << endl;
     cout << endl;
 }

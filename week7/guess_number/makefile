@@ -1,4 +1,5 @@
 CC=main.cpp
+HEADERS=qolife.h
 OUT=guessnum
 
 c: $(CC) $(HEADERS)
