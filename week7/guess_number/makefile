@@ -1,9 +1,10 @@
 CC=main.cpp
 HEADERS=qolife.h
+INCLUDES=funcs.cpp
 OUT=guessnum
 
-c: $(CC) $(HEADERS)
-	g++ -Wall $(CC) $(HEADERS) -o $(OUT) -std=c++11
+c: $(CC) $(HEADERS) $(INCLUDES)
+	g++ -Wall $(CC) $(HEADERS) $(INCLUDES) -o $(OUT) -std=c++11
 
 r: $(OUT)
 	clear

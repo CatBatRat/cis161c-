@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <random>
-#include <vector>
 #include "qolife.h"
 
 using std::cout;
@@ -12,11 +11,11 @@ using std::string;
 const int START = 10;
 
 void intro();
-void set_start(int&,int&,int&,int&);
-void get_input(int&);
-void check_input(const int&,const int&,int&);
+void set_start( int&, int&, int&, int& );
+void get_input( int& );
+void check_input( const int&, const int&, int& );
 bool play_again();
-void end(int&, const int&);
+void end( int&, const int& );
 
 /* Still working on keeping main() as clean as possible. Idealy I
  * want to have it be nothing but a loop, function calls, and variables.
@@ -24,19 +23,18 @@ void end(int&, const int&);
  * a shift in my way of thinking. */
 int main() {
     int number, tries, input, score;
-    std::srand(std::time(0));
+    std::srand( std::time(0) );
     intro();
     do {
-        // Set the starting random number between 1 and 99.
-        set_start(number,tries,input,score);
+        set_start( number, tries, input, score );
         do {
-            cout << "\nPlayer score = "<< score << endl;
-            get_input(input);
-            check_input(number,input,score);
+            cout << "\nPlayer score = " << score << endl;
+            get_input( input );
+            check_input( number, input, score);
             tries++;
         // While score above zero (loss) and input != number (win)
         } while( score > 0 and input != number );
-        end(score,tries);
+        end( score, tries );
     // Use the play again function to see if the game should continue
     }while( play_again() == true );
 
@@ -52,13 +50,12 @@ void intro() {
         "I tell you how wrong you are!" }
         ,50,300,'_' );
     cout << endl;
-    std::string s = std::to_string(START);
+    std::string s = std::to_string( START );
     ;
-    /* Made some changes to my _print_center function. Now I can
-     * provide optional left and right fill characters. Later I
-     * Plan to change this to used function overloading. Then calls
-     * will be much simpiler. */
-    /* Print centerd text 50 wide with a line delay of 300ms with the left fill
+    /* Made some changes to my _print_center function. Now I can provide
+     * optional left and right fill characters. Later I Plan to change this to
+     * used function overloading. Then calls will be much simpiler. */
+    /* Print centerd text 50 wide, a line delay of 300ms, with the left fill
      * character '{' and right fill '}'. */
     _print_center(
         { "This is a simple mind reading game.",
@@ -67,14 +64,14 @@ void intro() {
         "the answer you seek. You will be given",
         s+" points to start but you will lose points",
         "with every wrong guess! There is a bonus",
-        "for ending with 5 or more points." }, 50, 300, '{','}' );
+        "for ending with 5 or more points." }, 50, 300, '{', '}' );
     // Wait for user to press enter.
     _wait_enter();
 }
 
-void get_input(int& input) {
+void get_input( int& input ) {
     // Scroll text in from the right.
-    _scroller("Tell me what number I'm thinking.","right");
+    _scroller( "Tell me what number I'm thinking.", "right" );
     bool exit = false;
     do {
         cout << endl;
@@ -85,16 +82,16 @@ void get_input(int& input) {
          * handle this case but for now it also acts as convenient way to exit
          * the program as I call this whenever I use cin. */
         _cin_clear();
-        if( !(input) or input > 99 or input < 1 )
+        if( !( input ) or input > 99 or input < 1 )
             cout << "That is not a valid answer. Try again." << endl;
         else exit = true;
-    } while( !(exit) );
+    } while( !( exit ) );
 }
 
 /* This just uses simple logic to give defferent levels of feedback and alter
  * the score based on how close the player's guess is to the correct answer.
  * Also have a check at the end that will give a bonus for speedy guesses. */
-void check_input(const int& number, const int& input, int& score) {
+void check_input( const int& number, const int& input, int& score ) {
     if( input < number ) {
         if( number - input < 10 ) {
             cout << "Your less than 10 lower, so I'll only take one point." << endl;
@@ -141,15 +138,16 @@ bool play_again() {
 }
 
 // Set all the game variables to their starting values.
-void set_start(int& number,int& tries,int& input,int& score) {
+void set_start( int& number, int& tries, int& input, int& score ) {
     cout << "I'm thinking of a number between 1 and 99" << endl;
+    // Set the starting random number between 1 and 99.
     number = rand() % 99 + 1;
     tries = 1;
     input = 0;
     score = START;
 }
 
-void end(int& score, const int& tries) {
+void end( int& score, const int& tries ) {
     // Bit of a snarky comment from the computer
     // thought I would have a little fun with this
     if( score < 1 ) {

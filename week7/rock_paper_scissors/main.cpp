@@ -7,11 +7,17 @@
 using std::cout; using std::cin; using std::endl;
 
 void intro();
+
 char match_input(std::string input);
+
 int get_choice();
+
 int get_bot();
+
 void round_winner(int,int,int&,int&);
-void game_winner(int,int);
+
+void game_winner(const int&,const int&,const int&);
+
 bool play_again();
 
 /* I have put a great deal of work into finding ways to keep main() as clean as
@@ -33,15 +39,14 @@ int main()
         round = 1;
         p1s = 0; p2s = 0; // Player 1 and Player 2 starting score.
         while( p1s + p2s < 5 ) {
-            round_winner(get_choice(),get_bot(),p1s,p2s);
+            round_winner( get_choice(), get_bot(), p1s, p2s );
             round++;
             cout << "::Score::\n"
                  << "   Player 1: " << p1s << endl
                  << "   Player 2: " << p2s << endl;
         }
         cout << endl;
-        game_winner(p1s,p2s);
-        cout << "The game lasted " << round << " rounds." << endl;
+        game_winner( p1s, p2s, round );
     } while(play_again() == true);
 
     cout << "Goodbye!" << endl;
@@ -102,11 +107,15 @@ char match_input(std::string input) {
 void round_winner(int p1,int p2,int& p1s,int& p2s) {
     int win;
     std::vector<std::string> c = {"Rock","Paper","Scissors"};
-    if( p1 == p2 ) win = 3;
+    if( p1 == p2 )
+        win = 3;
     // r=0 p=1 s=2
-    else if( p1 == 0 and p2 == 1 ) win = 0;
-    else if( p1 == 1 and p2 == 2 ) win = 0;
-    else if( p1 == 2 and p2 == 0 ) win = 0;
+    else if( p1 == 0 and p2 == 1 )
+        win = 0;
+    else if( p1 == 1 and p2 == 2 )
+        win = 0;
+    else if( p1 == 2 and p2 == 0 )
+        win = 0;
     else win = 1;
     cout << "Player 1 chooses " << c[p1] << " and Player 2 chooses " << c[p2] << endl;
     if( win == 0 ) {
@@ -140,14 +149,15 @@ bool play_again() {
 }
 
 // Compare score to find match winner.
-void game_winner(int p1, int p2) {
-    if( p1 > p2 )
+void game_winner(const int& p1s, const int& p2s, const int& round) {
+    if( p1s > p2s )
         cout << "You won this match!\n"
-            << "The final score is " << p1 << " to " << p2
+            << "The final score is " << p1s << " to " << p2s
             << "\nCongratulations on your win!" << endl;
     else
         cout << "You have lost this match.\n"
-            << "The final score is " << p1 << " to " << p2
+            << "The final score is " << p1s << " to " << p2s
             << "\nBetter luck next time." << endl;
     cout << endl;
+    cout << "The game lasted " << round << " rounds." << endl;
 }
