@@ -1,7 +1,7 @@
 CC=main.cpp
-HEADERS=qolife.h
-INCLUDES=funcs.cpp tools.cpp
-OUT=guessnum
+HEADERS=scoring.h
+INCLUDES=scoring.cpp
+OUT=yahtzee
 
 c: $(CC) $(HEADERS) $(INCLUDES)
 	g++ -Wall $(CC) $(HEADERS) $(INCLUDES) -o $(OUT) -std=c++11

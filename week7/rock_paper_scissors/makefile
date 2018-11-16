@@ -1,9 +1,10 @@
 CC=main.cpp
 HEADERS=qolife.h
+SOURCES=funcs.cpp tools.cpp
 OUT=rps
 
-c: $(CC) $(HEADERS)
-	g++ -Wall $(CC) $(HEADERS) -o $(OUT) -std=c++11
+c: $(CC) $(HEADERS) $(SOURCES)
+	g++ -Wall $(CC) $(HEADERS) $(SOURCES) -o $(OUT) -std=c++11
 
 r: $(OUT)
 	clear

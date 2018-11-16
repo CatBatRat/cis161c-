@@ -32,8 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="funcs.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="qolife.h" />
+		<Unit filename="tools.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

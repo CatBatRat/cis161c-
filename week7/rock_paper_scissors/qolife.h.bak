@@ -1,3 +1,6 @@
+#ifndef __QO_LIFE__
+#define __QO_LIFE__
+
 #include <iostream> // std::cin, std::cout, std::endl
 #include <iomanip>  // std::setprecision, std::fixed
 #include <vector>   // std::vector
@@ -7,12 +10,65 @@
 #include <sstream>
 #include <thread>
 #include <chrono>
-#include "qolife.h"
+
+
+int _validate( std::vector<std::string>&, int limit = 0 );
+
+std::string _dec_string( double, int prec = 5, bool fixed = false );
+
+void _print_center( std::vector<std::string>, int width=74,
+        int delay=1000, char lfill = '#', char rfill='\n' );
+
+void _sleep( int sleep_time );
+
+void _cin_clear();
+
+void _print_line( int iters );
+
+void _scroller( std::string, std::string direc = "left", int width=0 );
+
+double long _g_positive( std::string prompt );
+
+std::string _to_lower(std::string& str);
+
+void _wait_enter();
 
 void _clear() {
     char clear_screen[] = "clear";
     std::cout << std::flush;
     std::system( clear_screen );
+}
+
+/* This function takes a vector of strings and turns them into a numbered list
+ * of options. The First element is used as the header for the list. User input
+ * the number for the option they want and that value is returned. Can also
+ * provide an optional limit and the number of options will be truncated as well
+ * as validation adjusting to the new number of items. */
+int _validate( std::vector<std::string>& check, int limit ) {
+    int option;
+    std::string output = "";
+    if( limit == 0 )
+        limit=check.size();
+    else limit = limit+1;
+    do {
+        std::cout << std::endl << check[0] << std::endl;
+        /* Use the size (number of elements) of the vector to determine
+         * how many to print and which number to show next to each option.*/
+        for( int x=1;x<limit;x++ ) {
+            output = std::to_string(x) + " " + check[x];
+            _scroller( output, "right", 40 );
+            std::cout << std::endl;
+        }
+        std::cin >> option;
+        _cin_clear();
+        /* Compare input from the user and make sure sure only a number
+         * from the list is input. */
+        if( option < 1 or option > limit - 1 ) {
+            std::cout << "You must input a number from the list" << std::endl;
+        }
+    } while( option < 1 or option > limit-1 );
+    std::cout << std::endl;
+    return option;
 }
 
 /* This uses some simple math to print out some centered text and set a fill
@@ -79,6 +135,29 @@ void _scroller( std::string line, std::string direc, int width ) {
     std::cout << std::flush;
 }
 
+/* Creates a sleep timer that should be compatible with whatever system it is
+ * used on.*/
+void _sleep( int sleep_time ) {
+    // Gets time according to running system and stores value in 'timer'.
+    std::chrono::milliseconds timer( sleep_time );
+    // Runs the 'sleep_for' command using the value of 'timer'.
+    std::this_thread::sleep_for( timer );
+}
+
+/* Fully clears 'std::cin' of all contents. This has become a standard tool and
+ * there really isn't a reason not to use it after most uses of cin as it
+ * eliminates the possibility of the contents of 'std::cin' being reused
+ * unexpectedly. EOF now exits the program cleanly, will see about adding a
+ * prompt in case the button combo was pressed on accident. */
+void _cin_clear() {
+    if( std::cin.eof()) {
+            std::cout << "Exit command received." << std::endl;
+            std::exit(0);
+    }
+    std::cin.clear();
+    std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+}
+
 /* This prints a single line animated. No matter how long the line it will
  * always take approximately the same time to print as the delay between
  * characters decreases by 2/3 with every iteration.*/
@@ -139,3 +218,15 @@ std::string _to_lower(std::string& str) {
     }
     return os;
 }
+
+/* Discovered std::getline() will end on Enter press, so this makes a great
+ * tool to pause a program until key press. */
+void _wait_enter() {
+    std::string hold;
+    std::cout << "\nPress Enter to continue";
+    std::getline(std::cin, hold);
+    _cin_clear();
+    std::cout << std::endl << std::endl;
+}
+
+#endif

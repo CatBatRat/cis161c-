@@ -1,20 +1,14 @@
 # depslib dependency file v1.0
-1541996609 source:/home/tadrith/lcc/cis161+/week7/guess_number/main.cpp
+1542180985 source:/home/tadrith/lcc/cis161+/week7/guess_number/main.cpp
 	<iostream>
-	<iomanip>
 	<string>
 	<random>
-	<vector>
 	"qolife.h"
 
-1541997461 /home/tadrith/lcc/cis161+/week7/guess_number/qolife.h
+1542180942 /home/tadrith/lcc/cis161+/week7/guess_number/qolife.h
 	<iostream>
 	<iomanip>
 	<vector>
 	<cstdio>
-	<locale>
-	<limits>
-	<sstream>
-	<thread>
-	<chrono>
+	<string>
 

@@ -32,9 +32,11 @@ int main() {
             get_input( input );
             check_input( number, input, score);
             tries++;
+
         // While score above zero (loss) and input != number (win)
         } while( score > 0 and input != number );
         end( score, tries );
+
     // Use the play again function to see if the game should continue
     }while( play_again() == true );
 
@@ -42,6 +44,7 @@ int main() {
 }
 
 void intro() {
+
     /* Print centerd text 50 wide with a line delay of 300ms with the fill
      * character '_'. */
     _print_center(
@@ -50,8 +53,13 @@ void intro() {
         "I tell you how wrong you are!" }
         ,50,300,'_' );
     cout << endl;
+
+    /* This is the value that will be inserted in the instructions at the
+     * beggining. I plan to implement more guessing games have there be other
+     * difficulties available at start, including riddles and
+     * fill-in-the-blanks. */
     std::string s = std::to_string( START );
-    ;
+
     /* Made some changes to my _print_center function. Now I can provide
      * optional left and right fill characters. Later I Plan to change this to
      * used function overloading. Then calls will be much simpiler. */
@@ -70,6 +78,7 @@ void intro() {
 }
 
 void get_input( int& input ) {
+
     // Scroll text in from the right.
     _scroller( "Tell me what number I'm thinking.", "right" );
     bool exit = false;
@@ -77,14 +86,20 @@ void get_input( int& input ) {
         cout << endl;
         cout << "Answer : ";
         cin >> input;
-        /* Modified _cin_clear to handle EOF as well as this can cuase the
-         * program to enter an infinite loop. Will look intor other methods to
+
+        /* Modified _cin_clear to handle EOF as well. This can cuase the
+         * program to enter an infinite loop. Will look into other methods to
          * handle this case but for now it also acts as convenient way to exit
-         * the program as I call this whenever I use cin. */
+         * the program as std::exit() is called if EOF is detected in cin which
+         * matches Ctrl-d the standard combo to exit a terminal on unix like
+         * systems. */
         _cin_clear();
-        if( !( input ) or input > 99 or input < 1 )
+
+        if( !( input ) or input > 99 or input < 1 ) {
             cout << "That is not a valid answer. Try again." << endl;
+        }
         else exit = true;
+
     } while( !( exit ) );
 }
 
@@ -92,7 +107,9 @@ void get_input( int& input ) {
  * the score based on how close the player's guess is to the correct answer.
  * Also have a check at the end that will give a bonus for speedy guesses. */
 void check_input( const int& number, const int& input, int& score ) {
+
     if( input < number ) {
+
         if( number - input < 10 ) {
             cout << "Your less than 10 lower, so I'll only take one point." << endl;
             score -= 1;
@@ -103,6 +120,7 @@ void check_input( const int& number, const int& input, int& score ) {
         }
     }
     else if( input > number ) {
+
         if( input - number < 10 ) {
             cout << "Your less than 10 higher, so I'll only take one point." << endl;
             score -= 1;
@@ -115,6 +133,8 @@ void check_input( const int& number, const int& input, int& score ) {
     else {
         cout << "\nYou read my mind!";
         if( score < 5 )
+
+            /* Couldn't resist :p */
             cout << " Took you long enough, but you got it.";
         else {
             cout << "\nHere's a bonus for doing it so fast!" << endl;
@@ -137,7 +157,7 @@ bool play_again() {
     return replay;
 }
 
-// Set all the game variables to their starting values.
+// Set/Reset all the game variables to their starting values.
 void set_start( int& number, int& tries, int& input, int& score ) {
     cout << "I'm thinking of a number between 1 and 99" << endl;
     // Set the starting random number between 1 and 99.
@@ -148,14 +168,16 @@ void set_start( int& number, int& tries, int& input, int& score ) {
 }
 
 void end( int& score, const int& tries ) {
-    // Bit of a snarky comment from the computer
-    // thought I would have a little fun with this
+
+    /* Bit of a snarky comment from the computer thought I would have a little
+     * fun with this */
     if( score < 1 ) {
         score = 0;
         cout << "\nYou have failed to read my mind.\n"
             "You have a long way to go before you're\n"
             "ready for more than card tricks.\n" << endl;
     }
+
     // Make sure to display the final score and number of tries
     cout << "Your final score is " << score
         << "\nand it took you " << tries << " tries." << endl;
