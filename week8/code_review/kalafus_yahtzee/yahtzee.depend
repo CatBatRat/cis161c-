@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1542522720 source:/home/tadrith/lcc/cis161+/week8/code_review/kalafus_yahtzee/yahtzee.cpp
+	"yahtzee.h"
+
+1542499162 /home/tadrith/lcc/cis161+/week8/code_review/kalafus_yahtzee/yahtzee.h
+
+1542585793 source:/home/tadrith/lcc/cis161+/week8/code_review/kalafus_yahtzee/main.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	<iomanip>
+	"yahtzee.h"
+
