@@ -1,0 +1,9 @@
+Remember to use 'cin.clear()' and 'cin.ignore(10000,'\n')' to avoid
+cases where the error bit or old data is reused unintentionally. I can
+cause an infinite loop if I put in a letter while being asked for
+measurement.
+
+You can save yourself some trouble by initializing 'string shape = ""'
+as an empty string. This way you can simply check 'shape' to see if it
+is empty, so you won't have to have such a complex if statement toward
+the end.

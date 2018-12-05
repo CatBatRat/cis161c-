@@ -5,8 +5,11 @@ const int SCOREFULLHOUSE = 25;
 const int SCORESMALLSTRAIGHT = 30;
 const int SCORELARGESTRAIGHT = 40;
 const int SCOREYAHTZEE = 50;
-/* Each one or the functions the will return the score for a given combination
- * of die in the game of Yahtzee. */
+
+bool ifNum(int, int, int, int, int, int, int);
+
+/* Each one or the functions will return the score for a given combination of
+ * die in the game of Yahtzee. */
 int scoreOnes(int, int, int, int, int, int);
 
 int scoreTwos(int, int, int, int, int, int);

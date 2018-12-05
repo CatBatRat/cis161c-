@@ -1,13 +1,25 @@
 # depslib dependency file v1.0
-1542590027 source:/home/tadrith/lcc/cis161+/week8/lab8/main.cpp
+1542915452 source:/home/tadrith/lcc/cis161+/week8/lab8/main.cpp
 	<iostream>
 	<ctime>
 	<cstdlib>
 	<iomanip>
 	"scoring.h"
 
-1542574608 /home/tadrith/lcc/cis161+/week8/lab8/scoring.h
+1542771002 /home/tadrith/lcc/cis161+/week8/lab8/scoring.h
 
-1542590008 source:/home/tadrith/lcc/cis161+/week8/lab8/scoring.cpp
+1542915411 source:/home/tadrith/lcc/cis161+/week8/lab8/scoring.cpp
+	"scoring.h"
+
+1542689838 source:/home/lcc/cis161+/week8/lab8/main.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	<iomanip>
+	"scoring.h"
+
+1542645592 /home/lcc/cis161+/week8/lab8/scoring.h
+
+1542689786 source:/home/lcc/cis161+/week8/lab8/scoring.cpp
 	"scoring.h"
 

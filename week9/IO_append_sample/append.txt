@@ -1,0 +1,7 @@
+This is a line before being modified.
+This is another line of text.
+
+this is added line one
+and this is added line two
+this is added line one
+and this is added line two

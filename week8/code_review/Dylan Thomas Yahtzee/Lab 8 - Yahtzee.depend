@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1542599448 source:c:\users\dylan\desktop\lab 8 - yahtzee\main.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	<iomanip>
+	"scoring.h"
+
+1542598619 source:c:\users\dylan\desktop\lab 8 - yahtzee\src\scoring.cpp
+	"scoring.h"
+
+1542601200 c:\users\dylan\desktop\lab 8 - yahtzee\include\scoring.h
+	<iostream>
+

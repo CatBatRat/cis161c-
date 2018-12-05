@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1543647374 source:/home/tadrith/lcc/cis161+/week9/test2_scratch/main.cpp
+	<string>
+	<iostream>
+

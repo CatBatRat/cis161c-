@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1543394096 source:/home/tadrith/lcc/cis161+/week9/peer_help/joe_io/functions.cpp
+	<iostream>
+	<fstream>
+	<sstream>
+	"functions.hpp"
+
+1543394096 /home/tadrith/lcc/cis161+/week9/peer_help/joe_io/functions.hpp
+	<string>
+

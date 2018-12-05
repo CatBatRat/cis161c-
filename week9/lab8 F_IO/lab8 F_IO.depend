@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1543798630 source:/home/tadrith/lcc/cis161+/week9/lab8 F_IO/main.cpp
+	<fstream>
+	<iostream>
+	<sstream>
+	<string>
+	"tools9.h"
+
+1543795477 /home/tadrith/lcc/cis161+/week9/lab8 F_IO/tools9.h
+	<string>
+	<vector>
+
+1543795444 source:/home/tadrith/lcc/cis161+/week9/lab8 F_IO/shapes.cpp
+	<iomanip>
+	<sstream>
+	<string>
+	"tools9.h"
+

@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1542922680 source:/home/tadrith/lcc/cis161+/week8/code_review/Tabitha Pack YahtzeeFinalVer/main.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	<iomanip>
+	"scoring.h"
+
+1543029492 /home/tadrith/lcc/cis161+/week8/code_review/Tabitha Pack YahtzeeFinalVer/scoring.h
+

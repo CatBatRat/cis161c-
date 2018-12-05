@@ -65,11 +65,11 @@ int main()
     {
         int round = 1;
         ones = twos = threes = fours = fives = sixes = 0;
-        die1 = 4;//rand() % SIDES + 1;
-        die2 = 4;//rand() % SIDES + 1;
-        die3 = 4;//rand() % SIDES + 1;
-        die4 = 4;//rand() % SIDES + 1;
-        die5 = 4;//rand() % SIDES + 1;
+        die1 = rand() % SIDES + 1;
+        die2 = rand() % SIDES + 1;
+        die3 = rand() % SIDES + 1;
+        die4 = rand() % SIDES + 1;
+        die5 = rand() % SIDES + 1;
 
         printRoll(die1, die2, die3, die4, die5);
 
@@ -388,14 +388,14 @@ int getScoreOption(int onesScore, int twosScore, int threesScore, int foursScore
     return ans;
 }
 
-/***********************************************************
- *                                                         *
- * tabulateDice                                            *
- * --------------------                                    *
- * This function calculates and returns the number of dice *
- * which show the value n.                                 *
- *                                                         *
- ***********************************************************/
+/********************************
+ *
+ * tabulateDice
+ * --------------------
+ * This function calculates and returns the number of dice
+ * which show the value n.
+ *
+ ********************************/
 int tabulateDice(int n, int d1, int d2, int d3, int d4, int d5)
 {
     int ans = 0;

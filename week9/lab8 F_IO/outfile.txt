@@ -1,0 +1,59 @@
+
+I drew a triangle made of &
+&
+&&
+&&&
+&&&&
+
+
+I drew a square made of @
+@@@@@@
+@@@@@@
+@@@@@@
+@@@@@@
+@@@@@@
+@@@@@@
+
+
+I drew a triangle made of x
+x
+xx
+xxx
+xxxx
+xxxxx
+
+
+I drew a rectangle made of *
+*****
+*****
+*****
+*****
+*****
+*****
+*****
+
+
+I drew a diamond made of $
+   $
+  $$$
+ $$$$$
+$$$$$$$
+ $$$$$
+  $$$
+   $
+
+
+I drew a diamond made of +
+  +
+ +++
++++++
+ +++
+  +
+
+
+I drew a rectangle made of =
+====
+====
+====
+
+
